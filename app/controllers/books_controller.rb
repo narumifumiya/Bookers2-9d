@@ -46,10 +46,11 @@ class BooksController < ApplicationController
 
   private
 
+  # book_paramsに:starを追加
   def book_params
-    params.require(:book).permit(:title, :body)
+    params.require(:book).permit(:title, :body, :star)
   end
-  
+
   def is_matching_login_user
     @book = Book.find(params[:id])
     user_id = @book.user_id
@@ -57,5 +58,5 @@ class BooksController < ApplicationController
       redirect_to books_path
     end
   end
-  
+
 end
