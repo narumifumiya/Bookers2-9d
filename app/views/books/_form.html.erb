@@ -7,28 +7,36 @@
     <%= f.label :opinion %>
     <%= f.text_area :body, class: 'form-control book_body' %>
   </div>
-
+  
   <!-- レビューフォーム　-->
-  <div class="form-group" id="star">
-    <%= f.label :star,'評価 ' %>
-    <%= f.hidden_field :star, id: :review_star, class: 'form-control' %>
-    <div id="post_raty"></div>
-　</div>
-  <script>
-    $(document).on('turbolinks:load', function() {
-      let elem = document.querySelector('#post_raty');
-      if (elem == null) return;
-
-      elem.innerHTML = ""
-      let opt = {
-        starOn: "<%= asset_path('star-on.png') %>",
-        starOff: "<%= asset_path('star-off.png') %>",
-        starHalf: "<%= asset_path('star-half.png') %>",
-        scoreName: 'book[star]',
-      };
-      raty(elem, opt);
-    });
-  </script>
+  <% if book.id.nil? %> <!-- bookをcreate前は評価をつける処理をする。 -->
+    <div class="form-group" id="star">
+      <%= f.label :star,'評価 ' %>
+      <%= f.hidden_field :star, id: :review_star, class: 'form-control' %>
+      <div id="post_raty"></div>
+  　</div>
+    <script>
+      $(document).on('turbolinks:load', function() {　　//どこのviewページに行ってもてjavaScriptが起動するように設定。
+        // dobument.querySelectorでHTML（全体）要素へアクセスして、任意のid="post_raty"を指定している。
+        let elem = document.querySelector('#post_raty');
+        if (elem == null) return; //無くても大丈夫そう？
+  
+        elem.innerHTML = ""
+        let opt = {
+          starOn: "<%= asset_path('star-on.png') %>",
+          starOff: "<%= asset_path('star-off.png') %>",
+          starHalf: "<%= asset_path('star-half.png') %>",
+          scoreName: 'book[star]', //登録するモデル名とカラム名を記述
+        };
+        raty(elem, opt);
+      });
+    </script>
+ 
+ <% else %>　<!-- 既にcreate済（book.idを持っている）の場合、評価は付けられず星を表示するのみとする。-->
+  <div class="form-group">
+    <%= render "static_rate", book: book %>　<!-- 星を表示する部分テンプレートを呼び出す。-->
+  </div>
+<% end %>
 
 
   <div class="form-group">

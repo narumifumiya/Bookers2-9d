@@ -27,6 +27,7 @@
             <%= render 'book_comments/counter', book: @book %>
           </td>
 
+          <!--　レビューを表示　-->
           <td><%= render "static_rate", book: @book %></td>
 
           <% if @user == current_user %>

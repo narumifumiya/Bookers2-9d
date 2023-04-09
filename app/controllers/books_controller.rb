@@ -46,7 +46,7 @@ class BooksController < ApplicationController
 
   private
 
-  # book_paramsに:starを追加
+  # book_paramsに:starを追加　これでcreate、update時に保存ができる！
   def book_params
     params.require(:book).permit(:title, :body, :star)
   end

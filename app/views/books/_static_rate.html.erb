@@ -1,6 +1,7 @@
 <div id="rate_<%= book.id %>"></div>
 <script>
-$(document).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', function() {   //どこのviewページに行ってもてjavaScriptが起動するように設定。
+  // dobument.querySelectorでHTML（全体）要素へアクセスして、任意のid="rate_ book.id "を指定している。
   let elem = document.querySelector('#rate_<%= book.id %>');
   if (elem == null) return;
 
@@ -10,7 +11,8 @@ $(document).on('turbolinks:load', function() {
     starOff: "<%= asset_path('star-off.png') %>",
     starHalf: "<%= asset_path('star-half.png') %>",
     score: "<%= book.star %>",
-    readOnly: true,
+    readOnly: true, //表示のみで入力（変更）できない
+
   };
   raty(elem, opt);
 });
