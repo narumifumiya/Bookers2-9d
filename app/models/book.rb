@@ -18,14 +18,14 @@ class Book < ApplicationRecord
   end
 
   def save_tags(sent_tags)
-    # 現在のユーザーの持っているskillを引っ張ってきている
+    # タグが存在してるか？確認し、あれば現在bookの持っているタグを引っ張ってきている
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
-    # 今bookが持っているタグと今回保存されたものの差をすでにあるタグとする。古いタグは消す。
+    # 現在bookが持っているタグと今回入力されたものの差をすでにあるタグとする。古いタグは消す。
     old_tags = current_tags - sent_tags
-    # 今回保存されたものと現在の差を新しいタグとする。新しいタグは保存
+    # 今回入力されたものと現在存在するタグの差を新しいタグとする。新しいタグは保存
     new_tags = sent_tags - current_tags
 
-    # 古いタグを消す
+    # 古いタグを消す（要らなくなったタグを削除）
     old_tags.each do |old|
       self.tags.delete Tag.find_by(name:old)
     end
@@ -33,6 +33,7 @@ class Book < ApplicationRecord
      # 新しいタグを保存
      new_tags.each do |new|
        new_book_tag = Tag.find_or_create_by(name: new)
+       # 配列に保存
        self.tags << new_book_tag
      end
 

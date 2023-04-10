@@ -12,11 +12,20 @@
     <%= render 'layouts/header' %>
       <main>
         <p id="notice"><%= notice %></p>
+
+
+        <div class="container">
+          <div class="row justify-content-start mb-2">
+            <div class="mr-3"><%= render 'searches/search' %></div>
+            <div class="mr-3"><%= render 'searches/tag_search' %></div>
+          </div>
+        </div>
+
         <%= yield %>
       </main>
-      
-      
-      
+
+
+
     <%= render 'layouts/footer' %>
   </body>
 </html>

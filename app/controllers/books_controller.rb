@@ -6,6 +6,7 @@ class BooksController < ApplicationController
     @user = @book.user
     @newbook = Book.new
     @book_comment = BookComment.new
+    # @bookに紐づくtagを全て取得
     @book_tags = @book.tags
   end
 
@@ -22,14 +23,16 @@ class BooksController < ApplicationController
     # @books = Book.all
     @book = Book.new
     @user = current_user
-    @tag_list = Tag.all
   end
 
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id
+    # 受け取った値を,で区切って配列にする
     tag_list = params[:book][:name].split(',')
     if @book.save
+      # book.rbで設定したsave_tags(sent-tags)メソッドを発動
+      # 結果として@bookにタグを保存している。詳しい処理内容はbook.rbで確認
       @book.save_tags(tag_list)
       redirect_to book_path(@book), notice: "You have created book successfully."
     else
@@ -40,14 +43,18 @@ class BooksController < ApplicationController
 
   def edit
     @book = Book.find(params[:id])
+    # 編集フォームで登録済のタグを初期値として表示する為に必要
     @tag_list=@book.tags.pluck(:name).join(',')
   end
 
   def update
     @book = Book.find(params[:id])
+    # 受け取った値を,で区切って配列にする
     tag_list=params[:book][:name].split(',')
     if @book.update(book_params)
-      @book.save_tag(tag_list)
+      # book.rbで設定したsave_tags(sent-tags)メソッドを発動
+      # 結果として@bookにタグを保存している。詳しい処理内容はbook.rbで確認
+      @book.save_tags(tag_list)
       redirect_to book_path(@book), notice: "You have updated book successfully."
     else
       render "edit"

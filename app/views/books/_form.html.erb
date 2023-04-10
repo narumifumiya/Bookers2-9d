@@ -8,9 +8,10 @@
     <%= f.text_area :body, class: 'form-control book_body' %>
   </div>
 
+  <!-- タグ入力フォーム -->
   <div class="form-group">
-    <%= f.label :name, 'Tag' %>
-    <%= f.text_field :name, value: @tag_list, class: 'form-control' %>
+    <%= f.label :name, 'Tag(,で区切ると複数登録が可能です)' %>
+    <%= f.text_field :name, class: 'form-control',value: @tag_list %>
   </div>
 
   <!-- レビューフォーム　-->
