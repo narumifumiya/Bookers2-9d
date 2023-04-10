@@ -57,6 +57,8 @@
         </tr>
       </thead>
       <tbody>
+        <!-- @tagsの中にはtag.booksが入っている -->
+        <!-- each分でバラす事によってbookとして使える-->
         <% @tags.each do |book| %>
           <tr>
             <td><%= link_to user_path(book.user) do %>
@@ -67,7 +69,9 @@
             <td><%= book.body %></td>
             <td>
               <% book.tags.each do |tag| %>
-                <li style="list-style: none"><%= link_to tag.name, search_path(word: tag.name, range: "tag", search: "perfect") %></li>
+                <li style="list-style: none">
+                  <%= link_to tag.name, search_path(word: tag.name, range: "tag", search: "perfect") %>
+                </li>
               <% end %>
             </td>
           </tr>
